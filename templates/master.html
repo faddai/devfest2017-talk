@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Welcome </title>
+
+    <!-- Styles -->
+    <link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="{{ url_for('static', filename='css/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet">
+    <style>
+        li.active {
+            border-bottom: 2px solid #5476b9;
+        }
+
+        nav {
+            box-shadow: 1px 4px 18px 3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="app">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+
+                <!-- Collapsed Hamburger -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!-- Branding Image -->
+                <a class="navbar-brand" href="/">
+                    <span class="pull-left">Ideatank</span>
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <!-- Left Side Of Navbar -->
+                <ul class="nav navbar-nav">
+                    &nbsp;
+                </ul>
+
+                <!-- Right Side Of Navbar -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{{ url_for('home') }}">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('ideas') }}">Ideas</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('categories') }}">Categories</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('tags') }}">Tags</a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ 'Guest' }}
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">Notification</a>
+                            </li>
+
+                            <li>
+                                <a href="#">Settings</a>
+                            </li>
+
+                            <li>
+                                <a href="{{ url_for('logout') }}" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">Logout
+                                </a>
+
+                                <form id="logout-form" action="{{ url_for('logout') }}" method="POST" style="display: none;">
+                                    <input type="hidden" value="" name="token">
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{% block title %}{{ title }}{% endblock %}</h1>
+            </div>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+        
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
+
+</body>
+</html>
